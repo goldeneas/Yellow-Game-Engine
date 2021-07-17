@@ -1,6 +1,5 @@
 package com.yellow.engine;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -8,7 +7,7 @@ import org.lwjgl.system.*;
 import java.nio.*;
 
 import com.yellow.engine.utils.Color;
-import com.yellow.engine.utils.Vector;
+import com.yellow.engine.utils.Vector2f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -27,13 +26,6 @@ public class Window {
 	// Variabili usate per la posizione del mouse quando viene cliccata la finestra
 	// Vedi linea 124 in #draw()
 	private double firstMouseX, firstMouseY = 0;
-
-	// Buffer usati ad esempio per salvare la posizione della finestra
-	private IntBuffer tmpIntBuffer1 = BufferUtils.createIntBuffer(1);
-	private IntBuffer tmpIntBuffer2 = BufferUtils.createIntBuffer(1);
-
-	private DoubleBuffer tmpDoubleBuffer1 = BufferUtils.createDoubleBuffer(1);
-	private DoubleBuffer tmpDoubleBuffer2 = BufferUtils.createDoubleBuffer(1);
 
 	public Window(int width, int height, String title, Color clearColor) {
 		this.width = width;
@@ -141,14 +133,28 @@ public class Window {
 		glfwSetWindowPos(window, x, y);
 	}
 
-	public Vector getWindowPosition(){
-		glfwGetWindowPos(window, tmpIntBuffer1, tmpIntBuffer2);
-		return new Vector(tmpIntBuffer1.get(0), tmpIntBuffer2.get(0));
+	public Vector2f getWindowPosition(){
+		try(MemoryStack stack = stackPush()){
+			IntBuffer tmpIntBuffer1 = stack.callocInt(1);
+			IntBuffer tmpIntBuffer2 = stack.callocInt(1);
+
+			glfwGetWindowPos(window, tmpIntBuffer1, tmpIntBuffer2);
+			return new Vector2f(tmpIntBuffer1.get(0), tmpIntBuffer2.get(0));
+		}
 	}
 
-	public Vector getMousePosition(){
-		glfwGetCursorPos(window, tmpDoubleBuffer1, tmpDoubleBuffer2);
-		return new Vector(tmpDoubleBuffer1.get(0), tmpDoubleBuffer2.get(0));
+	public Vector2f getMousePosition(){
+		try(MemoryStack stack = stackPush()){
+			DoubleBuffer tmpDoubleBuffer1 = stack.callocDouble(1);
+			DoubleBuffer tmpDoubleBuffer2 = stack.callocDouble(1);
+
+			glfwGetCursorPos(window, tmpDoubleBuffer1, tmpDoubleBuffer2);
+			return new Vector2f(tmpDoubleBuffer1.get(0), tmpDoubleBuffer2.get(0));
+		}
+	}
+
+	public long getWindowHandle(){
+		return window;
 	}
 
     public void setClearColor(Color newColor){
@@ -170,8 +176,4 @@ public class Window {
     public boolean shouldClose(){
         return glfwWindowShouldClose(window);
     }
-
-	public long getHandle(){
-		return window;
-	}
 }
