@@ -20,9 +20,9 @@ public class Window {
 	// The window handle
 	private long window;
 
-    private int width = 300, height = 300;
-    private String title = "Hello World";
-    private Color clearColor = new Color(37f, 38f, 39f, 255f);
+    private int width, height;
+    private String title;
+    private Color clearColor;
 
 	// Variabili usate per la posizione del mouse quando viene cliccata la finestra
 	// Vedi linea 124 in #draw()
@@ -36,14 +36,10 @@ public class Window {
 	private DoubleBuffer tmpDoubleBuffer2 = BufferUtils.createDoubleBuffer(1);
 
 	public Window(int width, int height, String title, Color clearColor) {
-		this(width, height, title);
-		this.clearColor = clearColor;
-	}
-
-	public Window(int width, int height, String title) {
 		this.width = width;
         this.height = height;
         this.title = title;
+		this.clearColor = clearColor;
 	}
 
 	public void init() {

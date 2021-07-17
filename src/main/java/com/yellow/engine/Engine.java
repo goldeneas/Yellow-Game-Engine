@@ -2,6 +2,7 @@ package com.yellow.engine;
 
 import com.yellow.engine.interfaces.IGame;
 import com.yellow.engine.utils.Timer;
+import com.yellow.engine.utils.WindowOptions;
 
 public class Engine implements Runnable {
 
@@ -9,10 +10,10 @@ public class Engine implements Runnable {
     private Timer timer;
     private Window window;
 
-    public Engine(IGame game){
+    public Engine(IGame game, WindowOptions options){
         this.game = game;
         this.timer = new Timer();
-        this.window = new Window(300, 300, "Example Engine Window");
+        this.window = new Window(options.width, options.height, options.title, options.clearColor);
     }
 
     @Override
