@@ -1,10 +1,10 @@
 package com.yellow.engine.interfaces;
 
-import com.yellow.engine.rendering.Window;
+import com.yellow.engine.windows.Window;
 
 public interface IGame {
 
-    void init();
+    void init() throws Exception;
 
     void update(double deltaTime);
 

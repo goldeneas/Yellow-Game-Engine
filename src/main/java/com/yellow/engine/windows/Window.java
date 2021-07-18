@@ -1,4 +1,4 @@
-package com.yellow.engine.rendering;
+package com.yellow.engine.windows;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -17,7 +17,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class Window {
 
 	// The window handle
-	private long window;
+	private long windowHandle;
 
 	private int width, height;
 	private String title;
@@ -52,13 +52,13 @@ public class Window {
 		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // the window will have the default decorators disabled
 
 		// Create the window
-		window = glfwCreateWindow(width, height, title, NULL, NULL);
-		if (window == NULL)
+		windowHandle = glfwCreateWindow(width, height, title, NULL, NULL);
+		if (windowHandle == NULL)
 			throw new RuntimeException("Failed to create the GLFW window");
 
 		// Setup a key callback. It will be called every time a key is pressed, repeated
 		// or released.
-		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+		glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
 			if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
 			}
@@ -70,22 +70,22 @@ public class Window {
 			IntBuffer pHeight = stack.mallocInt(1); // int*
 
 			// Get the window size passed to glfwCreateWindow
-			glfwGetWindowSize(window, pWidth, pHeight);
+			glfwGetWindowSize(windowHandle, pWidth, pHeight);
 
 			// Get the resolution of the primary monitor
 			GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
 			// Center the window
-			glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
+			glfwSetWindowPos(windowHandle, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
 		} // the stack frame is popped automatically
 
 		// Make the OpenGL context current
-		glfwMakeContextCurrent(window);
+		glfwMakeContextCurrent(windowHandle);
 		// Enable v-sync
 		glfwSwapInterval(1);
 
 		// Make the window visible
-		glfwShowWindow(window);
+		glfwShowWindow(windowHandle);
 
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
@@ -101,7 +101,7 @@ public class Window {
 	public void draw() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-		glfwSwapBuffers(window); // swap the color buffers
+		glfwSwapBuffers(windowHandle); // swap the color buffers
 
 		// Poll for window events. The key callback above will only be
 		// invoked during this call.
@@ -133,31 +133,31 @@ public class Window {
 	}
 
 	public void setWindowPosition(int x, int y) {
-		glfwSetWindowPos(window, x, y);
+		glfwSetWindowPos(windowHandle, x, y);
 	}
 
 	public Vector2f getWindowPosition() {
 		try (MemoryStack stack = stackPush()) {
-			IntBuffer tmpIntBuffer1 = stack.callocInt(1);
-			IntBuffer tmpIntBuffer2 = stack.callocInt(1);
+			IntBuffer pWidth = stack.callocInt(1);
+			IntBuffer pHeight = stack.callocInt(1);
 
-			glfwGetWindowPos(window, tmpIntBuffer1, tmpIntBuffer2);
-			return new Vector2f(tmpIntBuffer1.get(0), tmpIntBuffer2.get(0));
+			glfwGetWindowPos(windowHandle, pWidth, pHeight);
+			return new Vector2f(pWidth.get(0), pHeight.get(0));
 		}
 	}
 
 	public Vector2f getMousePosition() {
 		try (MemoryStack stack = stackPush()) {
-			DoubleBuffer tmpDoubleBuffer1 = stack.callocDouble(1);
-			DoubleBuffer tmpDoubleBuffer2 = stack.callocDouble(1);
+			DoubleBuffer pX = stack.callocDouble(1);
+			DoubleBuffer pY = stack.callocDouble(1);
 
-			glfwGetCursorPos(window, tmpDoubleBuffer1, tmpDoubleBuffer2);
-			return new Vector2f(tmpDoubleBuffer1.get(0), tmpDoubleBuffer2.get(0));
+			glfwGetCursorPos(windowHandle, pX, pY);
+			return new Vector2f(pX.get(0), pY.get(0));
 		}
 	}
 
 	public long getWindowHandle() {
-		return window;
+		return windowHandle;
 	}
 
 	public void setClearColor(Color newColor) {
@@ -165,18 +165,18 @@ public class Window {
 	}
 
 	public boolean isKeyDown(int key) {
-		return glfwGetKey(window, key) == GLFW_PRESS;
+		return glfwGetKey(windowHandle, key) == GLFW_PRESS;
 	}
 
 	public boolean isMouseButtonDown(int button) {
-		return glfwGetMouseButton(window, button) == GLFW_PRESS;
+		return glfwGetMouseButton(windowHandle, button) == GLFW_PRESS;
 	}
 
 	public boolean isMouseButtonReleased(int button) {
-		return glfwGetMouseButton(window, button) == GLFW_RELEASE;
+		return glfwGetMouseButton(windowHandle, button) == GLFW_RELEASE;
 	}
 
 	public boolean shouldClose() {
-		return glfwWindowShouldClose(window);
+		return glfwWindowShouldClose(windowHandle);
 	}
 }

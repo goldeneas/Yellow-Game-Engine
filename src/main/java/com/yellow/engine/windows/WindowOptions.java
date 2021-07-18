@@ -1,4 +1,4 @@
-package com.yellow.engine.rendering;
+package com.yellow.engine.windows;
 
 import com.yellow.engine.utils.Color;
 

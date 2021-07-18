@@ -1,9 +1,9 @@
 package com.yellow.engine;
 
 import com.yellow.engine.interfaces.IGame;
-import com.yellow.engine.rendering.Window;
-import com.yellow.engine.rendering.WindowOptions;
 import com.yellow.engine.utils.Timer;
+import com.yellow.engine.windows.Window;
+import com.yellow.engine.windows.WindowOptions;
 
 public class Engine implements Runnable {
 
@@ -31,7 +31,7 @@ public class Engine implements Runnable {
         }
     }
 
-    private void init() {
+    private void init() throws Exception {
         window.init();
         game.init();
     }
