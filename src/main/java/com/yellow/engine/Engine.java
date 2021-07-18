@@ -1,8 +1,9 @@
 package com.yellow.engine;
 
 import com.yellow.engine.interfaces.IGame;
+import com.yellow.engine.rendering.Window;
+import com.yellow.engine.rendering.WindowOptions;
 import com.yellow.engine.utils.Timer;
-import com.yellow.engine.utils.WindowOptions;
 
 public class Engine implements Runnable {
 
@@ -10,14 +11,14 @@ public class Engine implements Runnable {
     private Timer timer;
     private Window window;
 
-    public Engine(IGame game, WindowOptions options){
+    public Engine(IGame game, WindowOptions options) {
         this.game = game;
         this.timer = new Timer();
         this.window = new Window(options.width, options.height, options.title, options.clearColor);
     }
 
     @Override
-    public void run() {  
+    public void run() {
         try {
             Thread.currentThread().setName("GAME_ENGINE_THREAD");
 
@@ -30,16 +31,16 @@ public class Engine implements Runnable {
         }
     }
 
-    private void init(){
-        game.init();
+    private void init() {
         window.init();
+        game.init();
     }
 
-    private void dispose(){
+    private void dispose() {
         game.dispose();
     }
 
-    private void loop(){
+    private void loop() {
         double elapsedTime;
         double accumulator = 0f;
         double deltaTime = 1f / 60f;
@@ -60,17 +61,17 @@ public class Engine implements Runnable {
         }
     }
 
-    private void input(){
+    private void input() {
         game.input(window);
     }
 
-    private void draw(){
-        game.draw(window);
+    private void draw() {
         window.draw();
+        game.draw(window);
     }
 
-    private void update(double deltaTime){
+    private void update(double deltaTime) {
         game.update(deltaTime);
     }
-    
+
 }

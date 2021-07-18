@@ -13,5 +13,5 @@ public class Vector2f {
         this.x = x;
         this.y = y;
     }
-    
+
 }
