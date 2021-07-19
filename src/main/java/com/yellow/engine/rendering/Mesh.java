@@ -3,6 +3,7 @@ package com.yellow.engine.rendering;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryStack.*;
@@ -11,36 +12,45 @@ import static org.lwjgl.system.MemoryStack.*;
 // ha linkato la vertex e la fragment shader.
 public class Mesh {
 
-    private int vaoId, vboId;
-    private int vertexCount;
-    private float[] positions;
+    private int vaoId;
+    private int posVboId, idxVboId;
 
-    public Mesh(float[] positions){
+    private int vertexCount;
+
+    private float[] positions;
+    private int[] indexes;
+
+    public Mesh(float[] positions, int[] indexes){
         this.positions = positions;
+        this.indexes = indexes;
     }
 
     public void generateMesh(){
-        vertexCount = positions.length / 3;
+        vertexCount = indexes.length;
 
         try(MemoryStack stack = stackPush()){
-            FloatBuffer verticesBuffer = stack.callocFloat(positions.length);
-            verticesBuffer.put(positions).flip();
+            FloatBuffer positionsBuffer = stack.callocFloat(positions.length);
+            positionsBuffer.put(positions).flip();
+
+            IntBuffer indexesBuffer = stack.callocInt(indexes.length);
+            indexesBuffer.put(indexes).flip();
             
             // Crea il VAO e bindalo
             vaoId = glGenVertexArrays();
             glBindVertexArray(vaoId);
  
-            // Crea il VBO e bindalo
-            vboId = glGenBuffers();
-            glBindBuffer(GL_ARRAY_BUFFER, vboId);
-            glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
- 
-            // Crea posizione 0 per la shader
-            // (posizione dei vertici)
+            // Crea il VBO (posizioni) e bindalo
+            posVboId = glGenBuffers();
+            glBindBuffer(GL_ARRAY_BUFFER, posVboId);
+            glBufferData(GL_ARRAY_BUFFER, positionsBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
- 
-            // Definisci la struttura dell'array di vertici
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+
+            // Crea il VBO (indici) e bindalo
+            idxVboId = glGenBuffers();
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVboId);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexesBuffer, GL_STATIC_DRAW);
+
  
             // Unbinda VBO e VAO
             glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -51,9 +61,10 @@ public class Mesh {
     public void dispose(){
         glDisableVertexAttribArray(0);
 
-        // Elimina VBO
+        // Elimina VBOs
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDeleteBuffers(vboId);
+        glDeleteBuffers(posVboId);
+        glDeleteBuffers(idxVboId);
 
         // Elimina VAO
         glBindVertexArray(0);
@@ -62,10 +73,6 @@ public class Mesh {
 
     public int getVaoId(){
         return vaoId;
-    }
-
-    public int getVboId(){
-        return vboId;
     }
 
     public int getVertexCount(){

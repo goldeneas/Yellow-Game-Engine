@@ -10,13 +10,14 @@ public class TestGame implements IGame {
     private Renderer renderer;
     private Mesh mesh;
 
-    private float[] positions = {
+    private float[] positions = new float[]{
         -0.5f,  0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
-         0.5f,  0.5f, 0.0f,
-         0.5f,  0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
          0.5f, -0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+    };
+    private int[] indexes = new int[]{
+        0, 1, 3, 3, 1, 2,
     };
 
     @Override
@@ -24,7 +25,7 @@ public class TestGame implements IGame {
         renderer = new Renderer();
         renderer.init("/vertex.vs", "/fragment.fs");
         
-        mesh = new Mesh(positions);
+        mesh = new Mesh(positions, indexes);
     }
 
     @Override

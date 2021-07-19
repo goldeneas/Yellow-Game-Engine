@@ -24,7 +24,7 @@ public class Renderer {
         glBindVertexArray(mesh.getVaoId());
         glEnableVertexAttribArray(0);
 
-        glDrawArrays(GL_TRIANGLES, 0, mesh.getVertexCount()); // Primitivo, Index primo vertice, Numero di vertici
+        glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
