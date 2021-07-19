@@ -99,8 +99,6 @@ public class Window {
 	}
 
 	public void draw() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
 		glfwSwapBuffers(windowHandle); // swap the color buffers
 
 		// Poll for window events. The key callback above will only be
@@ -126,6 +124,10 @@ public class Window {
 				firstMouseY = 0;
 			}
 		}
+	}
+
+	public void clearWindow(){
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 	}
 
 	public void moveWindow(int x, int y) {

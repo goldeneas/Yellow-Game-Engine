@@ -1,20 +1,30 @@
 package com.yellow.game;
 
 import com.yellow.engine.interfaces.IGame;
+import com.yellow.engine.rendering.Mesh;
 import com.yellow.engine.rendering.Renderer;
 import com.yellow.engine.windows.Window;
 
 public class TestGame implements IGame {
 
-    Renderer renderer;
+    private Renderer renderer;
+    private Mesh mesh;
 
-    public TestGame(){
-        renderer = new Renderer();
-    }
+    private float[] positions = {
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+    };
 
     @Override
     public void init() throws Exception {
+        renderer = new Renderer();
         renderer.init("/vertex.vs", "/fragment.fs");
+        
+        mesh = new Mesh(positions);
     }
 
     @Override
@@ -27,7 +37,7 @@ public class TestGame implements IGame {
 
     @Override
     public void draw(Window window) {
-        renderer.draw();
+        renderer.draw(mesh, window);
     }
 
     @Override
