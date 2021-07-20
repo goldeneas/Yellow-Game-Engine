@@ -8,20 +8,19 @@ import java.nio.IntBuffer;
 import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryStack.*;
 
-// Questa classe deve essere usata solo dopo che Renderer.java
-// ha linkato la vertex e la fragment shader.
 public class Mesh {
 
     private int vaoId;
-    private int posVboId, idxVboId;
+    private int posVboId, idxVboId, colVboId;
 
     private int vertexCount;
 
-    private float[] positions;
+    private float[] positions, colors;
     private int[] indexes;
 
-    public Mesh(float[] positions, int[] indexes){
+    public Mesh(float[] positions, float[] colors, int[] indexes){
         this.positions = positions;
+        this.colors = colors;
         this.indexes = indexes;
     }
 
@@ -31,6 +30,9 @@ public class Mesh {
         try(MemoryStack stack = stackPush()){
             FloatBuffer positionsBuffer = stack.callocFloat(positions.length);
             positionsBuffer.put(positions).flip();
+
+            FloatBuffer colorsBuffer = stack.callocFloat(colors.length);
+            colorsBuffer.put(colors).flip();
 
             IntBuffer indexesBuffer = stack.callocInt(indexes.length);
             indexesBuffer.put(indexes).flip();
@@ -45,6 +47,13 @@ public class Mesh {
             glBufferData(GL_ARRAY_BUFFER, positionsBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+
+            // Crea il VBO (colori) e bindalo
+            colVboId = glGenBuffers();
+            glBindBuffer(GL_ARRAY_BUFFER, colVboId);
+            glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
 
             // Crea il VBO (indici) e bindalo
             idxVboId = glGenBuffers();

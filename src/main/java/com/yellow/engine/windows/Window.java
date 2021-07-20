@@ -162,6 +162,14 @@ public class Window {
 		return windowHandle;
 	}
 
+	public int getWindowWidth(){
+		return width;
+	}
+
+	public int getWindowHeight(){
+		return height;
+	}
+
 	public void setClearColor(Color newColor) {
 		glClearColor(newColor.r, newColor.g, newColor.b, newColor.a);
 	}

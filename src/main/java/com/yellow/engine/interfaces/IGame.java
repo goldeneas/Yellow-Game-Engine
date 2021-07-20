@@ -4,7 +4,7 @@ import com.yellow.engine.windows.Window;
 
 public interface IGame {
 
-    void init() throws Exception;
+    void init(Window window) throws Exception;
 
     void update(double deltaTime);
 

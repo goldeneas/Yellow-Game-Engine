@@ -33,7 +33,7 @@ public class Engine implements Runnable {
 
     private void init() throws Exception {
         window.init();
-        game.init();
+        game.init(window);
     }
 
     private void dispose() {
