@@ -24,6 +24,8 @@ public class Mesh {
         this.indexes = indexes;
     }
 
+    // Questo metodo è fondamentale per le draw call
+    // Però deve essere chiamato dopo Renderer#init altrimenti le shader non sono linkate
     public void generateMesh(){
         vertexCount = indexes.length;
 
@@ -65,6 +67,18 @@ public class Mesh {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
         }
+    }
+
+    public void draw() {
+        glBindVertexArray(this.getVaoId());
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        glDrawElements(GL_TRIANGLES, this.getVertexCount(), GL_UNSIGNED_INT, 0);
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glBindVertexArray(0);
     }
 
     public void dispose(){
