@@ -1,5 +1,6 @@
 package com.yellow.engine.rendering;
 
+import com.yellow.engine.handlers.ObjectHandler;
 import com.yellow.engine.utils.Utils;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.GameObject;
@@ -36,7 +37,7 @@ public class Renderer {
         shader.initUniform("worldMatrix");
     }
 
-    public void draw(Window window, GameObject[] gameObjects){
+    public void draw(Window window){
         window.clearWindow();
 
         shader.bind();
@@ -46,7 +47,7 @@ public class Renderer {
         shader.setUniformValue("projectionMatrix", projectionMatrix);
 
         // Crea il worldMatrix per ogni gameObject
-        for(GameObject gameObj : gameObjects) {
+        for(GameObject gameObj : ObjectHandler.getGameObjects()) {
             Matrix4f worldMatrix = transform.getWorldMatrix(
                 gameObj.getPosition(),
                 gameObj.getRotation(),
