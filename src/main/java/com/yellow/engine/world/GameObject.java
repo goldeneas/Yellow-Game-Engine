@@ -6,14 +6,25 @@ import org.joml.Vector3f;
 
 public class GameObject {
 
-    private Mesh mesh;
-    private Vector3f position;
-    private Vector3f rotation;
-    private float scale;
+    protected Mesh mesh;
+    protected Vector3f position;
+    protected Vector3f rotation;
+    protected float scale;
 
     public GameObject(Mesh mesh) {
         this.mesh = mesh;
-        this.mesh.generateMesh(); // Generiamo il mesh (VAO e i VBOs)
+        this.mesh.generateBuffers(); // Generiamo il mesh (VAO e i VBOs)
+
+        this.scale = 1;
+        this.position = new Vector3f();
+        this.rotation = new Vector3f();
+    }
+
+    protected GameObject() {
+        // Genera un NPE se non è assegnato un mesh.
+        // Questo costruttore è implementato solo da altri oggetti già definiti prima del runtime
+        // Quindi se si vuole disegnare, c'è bisogno di un mesh.
+        this.mesh = null;
 
         this.scale = 1;
         this.position = new Vector3f();
@@ -36,15 +47,19 @@ public class GameObject {
         return scale;
     }
 
-    public void setMesh(Mesh mesh){
-        if(this.mesh != null) { this.mesh.dispose(); }
-        this.mesh = mesh;
-    }
-
     public void setPosition(float x, float y, float z) {
         this.position.x = x;
         this.position.y = y;
         this.position.z = z;
+    }
+
+    public void move(float xAmount, float yAmount, float zAmount){
+        Vector3f currentPos = this.getPosition();
+        this.setPosition(currentPos.x + xAmount, currentPos.y + yAmount, currentPos.z + zAmount);
+    }
+
+    public void move(float xAmount, float yAmount){
+        this.move(xAmount, yAmount, 0);
     }
 
     public void setRotation(float x, float y, float z){

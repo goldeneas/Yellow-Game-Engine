@@ -26,7 +26,7 @@ public class Mesh {
 
     // Questo metodo è fondamentale per le draw call
     // Però deve essere chiamato dopo Renderer#init altrimenti le shader non sono linkate
-    public void generateMesh(){
+    public void generateBuffers(){
         vertexCount = indexes.length;
 
         try(MemoryStack stack = stackPush()){
@@ -71,23 +71,25 @@ public class Mesh {
 
     public void draw() {
         glBindVertexArray(this.getVaoId());
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
+        // glEnableVertexAttribArray(0);
+        // glEnableVertexAttribArray(1);
 
         glDrawElements(GL_TRIANGLES, this.getVertexCount(), GL_UNSIGNED_INT, 0);
 
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
+        // glDisableVertexAttribArray(0);
+        // glDisableVertexAttribArray(1);
         glBindVertexArray(0);
     }
 
     public void dispose(){
         glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
 
         // Elimina VBOs
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDeleteBuffers(posVboId);
         glDeleteBuffers(idxVboId);
+        glDeleteBuffers(colVboId);
 
         // Elimina VAO
         glBindVertexArray(0);

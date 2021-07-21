@@ -96,6 +96,9 @@ public class Window {
 
 		// Set the clear color
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+
+		// Draw pixel further away before closer ones
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	public void draw() {

@@ -5,6 +5,7 @@ import com.yellow.engine.utils.Timer;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.windows.WindowOptions;
 
+// TODO: Aggiungi il multithrading con una worker pool
 public class Engine implements Runnable {
 
     private IGame game;
@@ -20,7 +21,7 @@ public class Engine implements Runnable {
     @Override
     public void run() {
         try {
-            Thread.currentThread().setName("GAME_ENGINE_THREAD");
+            Thread.currentThread().setName("Yellow Game Engine");
 
             init();
             loop();
