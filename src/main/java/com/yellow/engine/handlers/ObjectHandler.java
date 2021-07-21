@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.yellow.engine.world.GameObject;
 
+// TODO: Pensa se sia una buona classe, ben ottimizzata con list o se c'è di meglio.
+// Pensa anche se questa classe ha senso o se altri giochi usano un metodo diverso per
+// iterare fra gli oggetti.
 public class ObjectHandler {
 
     private static List<GameObject> gameObjects = new ArrayList<>();
