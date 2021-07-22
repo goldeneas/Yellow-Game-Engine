@@ -35,6 +35,7 @@ public class Renderer {
 
         shader.initUniform("projectionMatrix");
         shader.initUniform("worldMatrix");
+        shader.initUniform("textureSampler");
     }
 
     public void draw(Window window){
@@ -55,6 +56,11 @@ public class Renderer {
             shader.setUniformValue("worldMatrix", worldMatrix);
             gameObj.getMesh().draw();
         }
+
+        // TODO: Implementa questo sistema (?)
+        // Valore messo a 0 perchè siamo solo una texture, altrimenti
+        // dovremmo cambiare l'id in base alla texture che è sulla gpu.
+        shader.setUniformValue("textureSampler", 0);
 
         shader.unbind();
     }

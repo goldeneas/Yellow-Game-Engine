@@ -21,7 +21,7 @@ public class GameObject {
     }
 
     protected GameObject() {
-        // Genera un NPE se non è assegnato un mesh.
+        // Genera un NPE dopo la draw call di questo oggetto se non è assegnato un mesh.
         // Questo costruttore è implementato solo da altri oggetti già definiti prima del runtime
         // Quindi se si vuole disegnare, c'è bisogno di un mesh.
         this.mesh = null;
@@ -54,8 +54,9 @@ public class GameObject {
     }
 
     public void move(float xAmount, float yAmount, float zAmount){
-        Vector3f currentPos = this.getPosition();
-        this.setPosition(currentPos.x + xAmount, currentPos.y + yAmount, currentPos.z + zAmount);
+        this.position.x += xAmount;
+        this.position.y += yAmount;
+        this.position.z += zAmount;
     }
 
     public void move(float xAmount, float yAmount){

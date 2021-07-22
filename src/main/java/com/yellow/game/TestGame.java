@@ -7,6 +7,8 @@ import com.yellow.engine.rendering.Renderer;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.GameObject;
 
+import org.lwjgl.glfw.GLFW;
+
 public class TestGame implements IGame {
 
     private Renderer renderer;
@@ -33,11 +35,13 @@ public class TestGame implements IGame {
         renderer.draw(window);
 
         GameObject testObject = ObjectHandler.get(0);
-        float rotation = testObject.getRotation().x + 1.5f;
-        if ( rotation > 360 ) {
-            rotation = 0;
+        if(window.isKeyDown(GLFW.GLFW_KEY_D)) {
+            float rotation = testObject.getRotation().x + 1.5f;
+            if ( rotation > 360 ) {
+                rotation = 0;
+            }
+            testObject.setRotation(rotation, rotation, rotation);
         }
-        testObject.setRotation(rotation, rotation, rotation);
     }
 
     @Override
