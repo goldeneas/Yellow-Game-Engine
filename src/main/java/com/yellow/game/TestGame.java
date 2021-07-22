@@ -17,7 +17,7 @@ public class TestGame implements IGame {
     @Override
     public void init(Window window) throws Exception {
         renderer = new Renderer();
-        renderer.init(window, "/vertex.vs", "/fragment.fs");
+        renderer.init(window, "/shaders/vertex.vs", "/shaders/fragment.fs");
 
         ObjectHandler.add(new Cube()).move(0, 0, -10);
     }

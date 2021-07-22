@@ -7,6 +7,9 @@ import static org.lwjgl.stb.STBImage.*;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.nio.file.Paths;
+
+import com.yellow.engine.utils.Logger;
 
 import org.lwjgl.system.MemoryStack;
 
@@ -34,7 +37,7 @@ public class Texture {
             // Carica l'immagine nel byteBuffer.
             // In pratica serve a prendere la texture in byte, la sua larghezza e la sua altezza
             // che sono poi messi nei buffer, che sono trasferiti nelle rispettive variabili.
-            byteBuffer = stbi_load(imageName, wBuffer, hBuffer, channels, 4);
+            byteBuffer = stbi_load(Paths.get(imageName).toString(), wBuffer, hBuffer, channels, 4);
             if (byteBuffer == null) {
                 throw new Exception("Image file [" + imageName  + "] not loaded: " + stbi_failure_reason());
             }

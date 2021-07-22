@@ -7,8 +7,8 @@ import com.yellow.engine.world.GameObject;
 public class Cube extends GameObject{
 
     float[] positions = new float[] {
-        -0.5f, -0.5f,  0.5f, // V0
-        -0.5f,  0.5f,  0.5f, // V1
+        -0.5f,  0.5f,  0.5f, // V0
+        -0.5f, -0.5f,  0.5f, // V1
          0.5f, -0.5f,  0.5f, // V2
          0.5f,  0.5f,  0.5f, // V3
         -0.5f,  0.5f, -0.5f, // V4
@@ -36,7 +36,8 @@ public class Cube extends GameObject{
         -0.5f, -0.5f,  0.5f, // V18: V1 repeated
          0.5f, -0.5f,  0.5f, // V19: V2 repeated
     };
-    float[] textCoords = new float[]{
+
+    float[] texturePos = new float[]{
         0.0f, 0.0f,
         0.0f, 0.5f,
         0.5f, 0.5f,
@@ -67,6 +68,7 @@ public class Cube extends GameObject{
         0.5f, 0.5f,
         1.0f, 0.5f,
     };
+
     int[] indexes = new int[]{
         0,  1,  3,  3,  1,  2,  // Front face
         8,  10, 11, 9,  8,  11, // Top Face
@@ -81,8 +83,8 @@ public class Cube extends GameObject{
     public Cube() {
         super();
 
-        this.texture = new Texture("D:/Workspace/Java/LWJGL/yellow/src/main/resources/textures/cube_texture.png");
-        this.mesh = new Mesh(positions, indexes, textCoords, texture);
+        this.texture = new Texture("D:/Workspace/Java/LWJGL/yellow/src/main/resources/textures/grassblock.png");
+        this.mesh = new Mesh(positions, indexes, texturePos, texture);
         this.mesh.generateBuffers();
     }
 
