@@ -83,7 +83,7 @@ public class Cube extends GameObject{
     public Cube() {
         super();
 
-        this.texture = new Texture("D:/Workspace/Java/LWJGL/yellow/src/main/resources/textures/grassblock.png");
+        this.texture = new Texture("/textures/grassblock.png");
         this.mesh = new Mesh(positions, indexes, texturePos, texture);
         this.mesh.generateBuffers();
     }

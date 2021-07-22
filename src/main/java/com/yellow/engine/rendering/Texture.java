@@ -7,26 +7,26 @@ import static org.lwjgl.stb.STBImage.*;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.nio.file.Paths;
-
-import com.yellow.engine.utils.Logger;
+import java.nio.file.Path;
 
 import org.lwjgl.system.MemoryStack;
 
 public class Texture {
 
-    private String imageName;
+    private String imagePath;
     private int textureId;
+    
+    private String resourcesPath = Path.of("").toAbsolutePath().toString() + "\\src\\main\\resources";
 
-    public Texture(String imageName){
-        this.imageName = imageName;
+    public Texture(String imagePath){
+        this.imagePath = imagePath;
     }
 
     // Possiamo anche definire l'immagine della texture in seguito
     // chiamando loadTexture con la stringa dell'immagine stessa.
     public Texture() {}
 
-    public int loadImage(String imageName) throws Exception {
+    public int loadImage(String imagePath) throws Exception {
         int width, height;
         ByteBuffer byteBuffer;
         try(MemoryStack stack = stackPush()) {
@@ -37,9 +37,9 @@ public class Texture {
             // Carica l'immagine nel byteBuffer.
             // In pratica serve a prendere la texture in byte, la sua larghezza e la sua altezza
             // che sono poi messi nei buffer, che sono trasferiti nelle rispettive variabili.
-            byteBuffer = stbi_load(Paths.get(imageName).toString(), wBuffer, hBuffer, channels, 4);
+            byteBuffer = stbi_load(resourcesPath + imagePath, wBuffer, hBuffer, channels, 4);
             if (byteBuffer == null) {
-                throw new Exception("Image file [" + imageName  + "] not loaded: " + stbi_failure_reason());
+                throw new Exception("Image file [" + imagePath  + "] not loaded: " + stbi_failure_reason());
             }
 
             byteBuffer.flip();
@@ -68,12 +68,12 @@ public class Texture {
     }
 
     public void loadImage() throws Exception{
-        this.loadImage(imageName);
+        this.loadImage(imagePath);
     }
 
-    public void bind(){
-        glBindTexture(GL_TEXTURE_2D, textureId);
-    }
+    // public void bind(){
+    //     glBindTexture(GL_TEXTURE_2D, textureId);
+    // }
 
     public int getTextureId(){
         return textureId;
