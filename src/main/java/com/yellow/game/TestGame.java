@@ -5,8 +5,9 @@ import com.yellow.engine.interfaces.IGame;
 import com.yellow.engine.prefabs.Cube;
 import com.yellow.engine.rendering.Renderer;
 import com.yellow.engine.windows.Window;
-import com.yellow.engine.world.GameObject;
+import com.yellow.engine.world.Camera;
 
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 public class TestGame implements IGame {
@@ -19,7 +20,9 @@ public class TestGame implements IGame {
         renderer = new Renderer();
         renderer.init(window, "/shaders/vertex.vs", "/shaders/fragment.fs");
 
-        ObjectHandler.add(new Cube()).move(0, 0, -10);
+        ObjectHandler.add(new Cube(new Vector3f(0, 0, -10)));
+        ObjectHandler.add(new Cube(new Vector3f(1, 0, -10)));
+        ObjectHandler.add(new Cube(new Vector3f(2, 0, -10)));
     }
 
     @Override
@@ -34,13 +37,31 @@ public class TestGame implements IGame {
     public void draw(Window window) {
         renderer.draw(window);
 
-        GameObject testObject = ObjectHandler.get(0);
+        // TODO: Metti un getter per la camera in Window.java (?)
+
         if(window.isKeyDown(GLFW.GLFW_KEY_D)) {
-            float rotation = testObject.getRotation().x + 1.5f;
-            if ( rotation > 360 ) {
-                rotation = 0;
-            }
-            testObject.setRotation(rotation, rotation, rotation);
+            Camera.getCamera().move(0.1f, 0);
+        }
+        else if(window.isKeyDown(GLFW.GLFW_KEY_A)) {
+            Camera.getCamera().move(-0.1f, 0);
+        }
+        else if(window.isKeyDown(GLFW.GLFW_KEY_W)) {
+            Camera.getCamera().move(0, 0, -0.1f);
+        }
+        else if(window.isKeyDown(GLFW.GLFW_KEY_S)) {
+            Camera.getCamera().move(0, 0, 0.1f);
+        }
+        else if(window.isKeyDown(GLFW.GLFW_KEY_Z)) {
+            Camera.getCamera().rotate(-0.5f, 0);
+        }
+        else if(window.isKeyDown(GLFW.GLFW_KEY_X)) {
+            Camera.getCamera().rotate(0.5f, 0);
+        }
+        else if(window.isKeyDown(GLFW.GLFW_KEY_C)) {
+            Camera.getCamera().rotate(0, 0.5f, 0);
+        }
+        else if(window.isKeyDown(GLFW.GLFW_KEY_V)) {
+            Camera.getCamera().rotate(0, -0.5f, 0);
         }
     }
 

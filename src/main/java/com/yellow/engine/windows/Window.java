@@ -1,5 +1,6 @@
 package com.yellow.engine.windows;
 
+import org.joml.Vector2d;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -7,7 +8,6 @@ import org.lwjgl.system.*;
 import java.nio.*;
 
 import com.yellow.engine.utils.Color;
-import com.yellow.engine.utils.Vector2f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -141,23 +141,23 @@ public class Window {
 		glfwSetWindowPos(windowHandle, x, y);
 	}
 
-	public Vector2f getWindowPosition() {
+	public Vector2d getWindowPosition() {
 		try (MemoryStack stack = stackPush()) {
 			IntBuffer pWidth = stack.callocInt(1);
 			IntBuffer pHeight = stack.callocInt(1);
 
 			glfwGetWindowPos(windowHandle, pWidth, pHeight);
-			return new Vector2f(pWidth.get(0), pHeight.get(0));
+			return new Vector2d(pWidth.get(0), pHeight.get(0));
 		}
 	}
 
-	public Vector2f getMousePosition() {
+	public Vector2d getMousePosition() {
 		try (MemoryStack stack = stackPush()) {
 			DoubleBuffer pX = stack.callocDouble(1);
 			DoubleBuffer pY = stack.callocDouble(1);
 
 			glfwGetCursorPos(windowHandle, pX, pY);
-			return new Vector2f(pX.get(0), pY.get(0));
+			return new Vector2d(pX.get(0), pY.get(0));
 		}
 	}
 

@@ -4,6 +4,8 @@ import com.yellow.engine.rendering.Mesh;
 import com.yellow.engine.rendering.Texture;
 import com.yellow.engine.world.GameObject;
 
+import org.joml.Vector3f;
+
 public class Cube extends GameObject{
 
     float[] positions = new float[] {
@@ -38,31 +40,33 @@ public class Cube extends GameObject{
     };
 
     float[] texturePos = new float[]{
+        // Front Face
         0.0f, 0.0f,
         0.0f, 0.5f,
         0.5f, 0.5f,
         0.5f, 0.0f,
         
+        // Behind Face
         0.0f, 0.0f,
         0.5f, 0.0f,
         0.0f, 0.5f,
         0.5f, 0.5f,
         
-        // For text coords in top face
+        // Top Face
         0.0f, 0.5f,
         0.5f, 0.5f,
         0.0f, 1.0f,
         0.5f, 1.0f,
 
-        // For text coords in right face
+        // Right Face
         0.0f, 0.0f,
         0.0f, 0.5f,
 
-        // For text coords in left face
+        // Left Face
         0.5f, 0.0f,
         0.5f, 0.5f,
 
-        // For text coords in bottom face
+        // Bottom Face
         0.5f, 0.0f,
         1.0f, 0.0f,
         0.5f, 0.5f,
@@ -82,6 +86,14 @@ public class Cube extends GameObject{
 
     public Cube() {
         super();
+
+        this.texture = new Texture("/textures/grassblock.png");
+        this.mesh = new Mesh(positions, indexes, texturePos, texture);
+        this.mesh.generateBuffers();
+    }
+
+    public Cube(Vector3f position) {
+        super(position);
 
         this.texture = new Texture("/textures/grassblock.png");
         this.mesh = new Mesh(positions, indexes, texturePos, texture);

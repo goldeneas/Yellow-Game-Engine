@@ -98,6 +98,8 @@ public class Mesh {
         glBindVertexArray(0);
     }
 
+    // Questo metodo di norma va chiamato con GameObject#dispose() direttamente se assegnato ad un gameobject
+    // così si elimina anche dalla lista dei gameobject.
     public void dispose(){
         // Disattiva gli attributi del VAO
         glDisableVertexAttribArray(0);
