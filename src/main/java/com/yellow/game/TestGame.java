@@ -2,7 +2,7 @@ package com.yellow.game;
 
 import com.yellow.engine.handlers.ObjectHandler;
 import com.yellow.engine.interfaces.IGame;
-import com.yellow.engine.prefabs.Cube;
+import com.yellow.engine.prefabs.primitives.Block;
 import com.yellow.engine.rendering.Renderer;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.Camera;
@@ -17,26 +17,20 @@ public class TestGame implements IGame {
 
     private Renderer renderer;
 
-    // TODO: Rendi la creazione di un gameobject più severa. Vogliamo una texture.
-    // Possiamo anche provare a passare gli argomenti attarverso l'ObjectHandler
-    // Es. ObjectHandler#add(GameOBject tipoDIoGgetto, Vector3f posizione) -> chiama il costruttore del gameobject e imposta lui la posizione del gameobject, così
-    // non dobbiamo implementare diversi costruttori per ogni prefab.
-
-    // TODO: Crea una classe che conservi le texture caricate dalla memoria
-
     @Override
     public void init(Window window) throws Exception {
         renderer = new Renderer();
         renderer.init(window, "/shaders/vertex.vs", "/shaders/fragment.fs");
 
+        ObjectHandler.add(new Block(), new Vector3f(0, 0, -10));
 
-        for(int x = 0; x < 16; x++) {
-            for(int y = 0; y < 16; y++) {
-                for(int z = 0; z < 16; z++) {
-                    ObjectHandler.add(new Cube(new Vector3f(x, y, z)));
-                }
-            }
-        }
+        // for(int x = 0; x < 16; x++) {
+        //     for(int y = 0; y < 16; y++) {
+        //         for(int z = 0; z < 16; z++) {
+        //             ObjectHandler.add(new Block(), new Vector3f(x, y, z));
+        //         }
+        //     }
+        // }
     }
 
     @Override

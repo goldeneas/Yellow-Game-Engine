@@ -1,13 +1,11 @@
-package com.yellow.engine.prefabs;
+package com.yellow.engine.prefabs.primitives;
 
 import com.yellow.engine.handlers.TextureHandler;
 import com.yellow.engine.rendering.Mesh;
 import com.yellow.engine.rendering.Texture;
 import com.yellow.engine.world.GameObject;
 
-import org.joml.Vector3f;
-
-public class Cube extends GameObject{
+public class Block extends GameObject{
 
     float[] positions = new float[] {
         -0.5f,  0.5f,  0.5f, // V0
@@ -85,20 +83,21 @@ public class Cube extends GameObject{
 
     private Texture texture;
 
-    public Cube() {
+    public Block() {
         super();
 
         this.texture = TextureHandler.getTexture("grassblock.png");
         this.mesh = new Mesh(positions, indexes, texturePos, texture);
         this.mesh.generateBuffers();
     }
-
-    public Cube(Vector3f position) {
-        super(position);
+    
+    public Block(String textName) {
+        super();
 
         this.texture = TextureHandler.getTexture("grassblock.png");
         this.mesh = new Mesh(positions, indexes, texturePos, texture);
         this.mesh.generateBuffers();
+        this.texture = TextureHandler.getTexture(textName);
     }
 
 }

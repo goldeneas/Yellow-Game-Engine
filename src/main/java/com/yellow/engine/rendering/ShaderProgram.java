@@ -1,9 +1,8 @@
 package com.yellow.engine.rendering;
 
 import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.system.MemoryStack.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,13 +105,16 @@ public class ShaderProgram {
     // Questo metodo va chiamato dopo che ShaderProgram#bind è stato invocato.
     public void setUniformValue(String uniformName, Matrix4f value){
         try(MemoryStack stack = stackPush()) {
-            FloatBuffer tmpBuffer = stack.callocFloat(16);
-            value.get(tmpBuffer); // In teoria mette i valori della matrice nel buffer
-            glUniformMatrix4fv(uniforms.get(uniformName), false, tmpBuffer);
+            glUniformMatrix4fv(uniforms.get(uniformName), false,
+                               value.get(stack.mallocFloat(16)));
         }
     }
 
     public void setUniformValue(String uniformName, int value){
         glUniform1f(uniforms.get(uniformName), value);
+    }
+
+    public int getProgramId(){
+        return programId;
     }
 }

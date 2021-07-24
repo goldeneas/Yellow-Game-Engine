@@ -35,16 +35,6 @@ public class GameObject {
         this.rotation = new Vector3f();
     }
 
-    protected GameObject(Vector3f position) {
-        this();
-        this.position = position;
-    }
-
-    protected GameObject(Vector3f position, Vector3f rotation) {
-        this(position);
-        this.rotation = rotation;
-    }
-
     // Questo metodo è una scorciatoia per GameObject#getMesh#draw().
     public void draw(){
         this.mesh.draw();

@@ -18,7 +18,6 @@ import org.lwjgl.system.MemoryStack;
 public class TextureHandler {
 
     private static String resourcesPath = Path.of("").toAbsolutePath().toString() + "\\src\\main\\resources\\textures\\";
-
     private static Map<String, Texture> textureMap = new HashMap<>();
 
     // Il nome del .png nella cartella resources/texture sarà anche il nome della texture
