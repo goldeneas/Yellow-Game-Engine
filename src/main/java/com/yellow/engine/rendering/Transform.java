@@ -1,4 +1,7 @@
-package com.yellow.engine.world;
+package com.yellow.engine.rendering;
+
+import com.yellow.engine.world.Camera;
+import com.yellow.engine.world.GameObject;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -16,10 +19,6 @@ public class Transform {
     }
 
     public Matrix4f getProjectionMatrix(float fov, float windowWidth, float windowHeight, float zNear, float zFar) {
-        // float aspectRation = windowWidth / windowHeight;
-        // projectionMatrix.identity();
-        // projectionMatrix.perspective(fov, aspectRation, zNear, zFar);
-        // return projectionMatrix;
         return projectionMatrix.setPerspective(fov, windowWidth / windowHeight, zNear, zFar);
     }
 

@@ -5,7 +5,6 @@ import com.yellow.engine.utils.Utils;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.Camera;
 import com.yellow.engine.world.GameObject;
-import com.yellow.engine.world.Transform;
 
 import org.joml.Matrix4f;
 
@@ -41,6 +40,7 @@ public class Renderer {
         shader.initUniform("textureSampler");
     }
 
+    // TODO: Metti il draw del renderer (per i gameobject) in una worker pool con i thread?
     public void draw(Window window){
         window.clearWindow();
 
@@ -70,6 +70,14 @@ public class Renderer {
 
     public void dispose(){
         if(shader != null) { shader.dispose(); }
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
     
 }

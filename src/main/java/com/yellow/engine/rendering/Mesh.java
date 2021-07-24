@@ -27,6 +27,8 @@ public class Mesh {
         this.positions = positions;
         this.texturePos = texturePos;
         this.indexes = indexes;
+
+        // TODO: Sostituisci l'ultimo null con una texture ad esempio viola.
         this.texture = texture;
     }
 
@@ -45,8 +47,6 @@ public class Mesh {
 
             IntBuffer indexesBuffer = stack.callocInt(indexes.length);
             indexesBuffer.put(indexes).flip();
-
-            this.texture.loadImage();
             
             // Crea il VAO e bindalo
             vaoId = glGenVertexArrays();

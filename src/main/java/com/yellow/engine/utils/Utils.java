@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Utils {
 
+    // Returns a string object
     public static String loadResource(String fileName) throws Exception {
         String result;
         try (InputStream in = Utils.class.getResourceAsStream(fileName);

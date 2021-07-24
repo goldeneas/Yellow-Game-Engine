@@ -1,5 +1,6 @@
 package com.yellow.engine.prefabs;
 
+import com.yellow.engine.handlers.TextureHandler;
 import com.yellow.engine.rendering.Mesh;
 import com.yellow.engine.rendering.Texture;
 import com.yellow.engine.world.GameObject;
@@ -87,7 +88,7 @@ public class Cube extends GameObject{
     public Cube() {
         super();
 
-        this.texture = new Texture("/textures/grassblock.png");
+        this.texture = TextureHandler.getTexture("grassblock.png");
         this.mesh = new Mesh(positions, indexes, texturePos, texture);
         this.mesh.generateBuffers();
     }
@@ -95,7 +96,7 @@ public class Cube extends GameObject{
     public Cube(Vector3f position) {
         super(position);
 
-        this.texture = new Texture("/textures/grassblock.png");
+        this.texture = TextureHandler.getTexture("grassblock.png");
         this.mesh = new Mesh(positions, indexes, texturePos, texture);
         this.mesh.generateBuffers();
     }

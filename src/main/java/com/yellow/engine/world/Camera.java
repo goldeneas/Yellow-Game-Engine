@@ -6,13 +6,9 @@ public class Camera {
 
     private Vector3f position, rotation;
 
-    // DEBUG
-    private static Camera cameraInstance;
-
     public Camera() {
         this.position = new Vector3f();
         this.rotation = new Vector3f();
-        cameraInstance = this;
     }
 
     public Camera(Vector3f position, Vector3f rotation) {
@@ -65,11 +61,6 @@ public class Camera {
         this.rotation.x = x;
         this.rotation.y = y;
         this.rotation.z = z;
-    }
-
-    // DEBUG
-    public static Camera getCamera() {
-        return cameraInstance;
     }
 
 }
