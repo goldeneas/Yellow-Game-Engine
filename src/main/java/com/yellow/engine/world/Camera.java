@@ -47,6 +47,7 @@ public class Camera {
         this.position.z = z;
     }
 
+    // Se ti sembra che le rotazioni siano invertite, ripensa a come avvengono attorno agli assi...
     public void rotate(float offsetX, float offsetY, float offsetZ){
         this.rotation.x += offsetX;
         this.rotation.y += offsetY;

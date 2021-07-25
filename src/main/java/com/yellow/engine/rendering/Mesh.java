@@ -28,7 +28,6 @@ public class Mesh {
         this.texturePos = texturePos;
         this.indexes = indexes;
 
-        // TODO: Sostituisci l'ultimo null con una texture ad esempio viola.
         this.texture = texture;
     }
 
@@ -62,6 +61,7 @@ public class Mesh {
 
             // Crea il VBO (colori) e bindalo
             textVboId = glGenBuffers();
+            //vboIds.add(textVboId);
             glBindBuffer(GL_ARRAY_BUFFER, textVboId);
             glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(1);

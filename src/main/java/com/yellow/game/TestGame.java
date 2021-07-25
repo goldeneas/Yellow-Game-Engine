@@ -2,7 +2,7 @@ package com.yellow.game;
 
 import com.yellow.engine.handlers.ObjectHandler;
 import com.yellow.engine.interfaces.IGame;
-import com.yellow.engine.prefabs.primitives.Block;
+import com.yellow.engine.prefabs.base.Block;
 import com.yellow.engine.rendering.Renderer;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.Camera;
@@ -65,23 +65,25 @@ public class TestGame implements IGame {
         if(window.isKeyDown(GLFW.GLFW_KEY_S)) {
             camera.move(0, 0, 0.1f);
         }
-        if(window.isKeyDown(GLFW.GLFW_KEY_Z)) {
-            camera.rotate(-0.5f, 0);
-        }
-        if(window.isKeyDown(GLFW.GLFW_KEY_X)) {
-            camera.rotate(0.5f, 0);
-        }
-        if(window.isKeyDown(GLFW.GLFW_KEY_C)) {
-            camera.rotate(0, 0.5f, 0);
-        }
-        if(window.isKeyDown(GLFW.GLFW_KEY_V)) {
-            camera.rotate(0, -0.5f, 0);
-        }
+
         if(window.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
-            camera.move(0, 0.5f);
+            camera.move(0, 0.2f);
         }
         if(window.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            camera.move(0, -0.5f);
+            camera.move(0, -0.2f);
+        }
+
+        if(window.isKeyDown(GLFW.GLFW_KEY_LEFT)) {
+            camera.rotate(0, -0.5f);
+        }
+        if(window.isKeyDown(GLFW.GLFW_KEY_RIGHT)) {
+            camera.rotate(0, 0.5f);
+        }
+        if(window.isKeyDown(GLFW.GLFW_KEY_UP)) {
+            camera.rotate(-0.5f, 0);
+        }
+        if(window.isKeyDown(GLFW.GLFW_KEY_DOWN)) {
+            camera.rotate(0.5f, 0);
         }
     }
 

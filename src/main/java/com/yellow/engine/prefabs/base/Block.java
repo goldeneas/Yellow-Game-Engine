@@ -1,4 +1,4 @@
-package com.yellow.engine.prefabs.primitives;
+package com.yellow.engine.prefabs.base;
 
 import com.yellow.engine.handlers.TextureHandler;
 import com.yellow.engine.rendering.Mesh;
@@ -8,10 +8,13 @@ import com.yellow.engine.world.GameObject;
 public class Block extends GameObject{
 
     float[] positions = new float[] {
+        // Front Face
         -0.5f,  0.5f,  0.5f, // V0
         -0.5f, -0.5f,  0.5f, // V1
          0.5f, -0.5f,  0.5f, // V2
          0.5f,  0.5f,  0.5f, // V3
+
+        // Behind Face
         -0.5f,  0.5f, -0.5f, // V4
          0.5f,  0.5f, -0.5f, // V5
         -0.5f, -0.5f, -0.5f, // V6
@@ -31,10 +34,10 @@ public class Block extends GameObject{
         -0.5f,  0.5f, 0.5f, // V14: V0 repeated
         -0.5f, -0.5f, 0.5f, // V15: V1 repeated
 
-        // For text coords in bottom face
+        // Bottom Face
         -0.5f, -0.5f, -0.5f, // V16: V6 repeated
-         0.5f, -0.5f, -0.5f, // V17: V7 repeated
-        -0.5f, -0.5f,  0.5f, // V18: V1 repeated
+        -0.5f, -0.5f,  0.5f, // V17: V1 repeated
+         0.5f, -0.5f, -0.5f, // V18: V7 repeated
          0.5f, -0.5f,  0.5f, // V19: V2 repeated
     };
 
