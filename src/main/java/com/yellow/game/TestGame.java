@@ -22,15 +22,15 @@ public class TestGame implements IGame {
         renderer = new Renderer();
         renderer.init(window, "/shaders/vertex.vs", "/shaders/fragment.fs");
 
-        ObjectHandler.add(new Block(), new Vector3f(0, 0, -10));
+        //ObjectHandler.add(new Block(), new Vector3f(0, 0, -10));
 
-        // for(int x = 0; x < 16; x++) {
-        //     for(int y = 0; y < 16; y++) {
-        //         for(int z = 0; z < 16; z++) {
-        //             ObjectHandler.add(new Block(), new Vector3f(x, y, z));
-        //         }
-        //     }
-        // }
+        for(int x = 0; x < 16; x++) {
+            for(int y = 0; y < 16; y++) {
+                for(int z = 0; z < 16; z++) {
+                    ObjectHandler.add(new Block(), new Vector3f(x, y, z));
+                }
+            }
+        }
     }
 
     @Override

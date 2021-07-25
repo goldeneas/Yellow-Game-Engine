@@ -7,38 +7,42 @@ import com.yellow.engine.world.GameObject;
 
 public class Block extends GameObject{
 
-    float[] positions = new float[] {
+    float[] vertices = new float[] {
         // Front Face
         -0.5f,  0.5f,  0.5f, // V0
         -0.5f, -0.5f,  0.5f, // V1
          0.5f, -0.5f,  0.5f, // V2
          0.5f,  0.5f,  0.5f, // V3
 
-        // Behind Face
-        -0.5f,  0.5f, -0.5f, // V4
-         0.5f,  0.5f, -0.5f, // V5
-        -0.5f, -0.5f, -0.5f, // V6
-         0.5f, -0.5f, -0.5f, // V7
+        // Top Face
+        -0.5f, 0.5f, -0.5f, // V4
+         0.5f, 0.5f, -0.5f, // V5
+        -0.5f, 0.5f,  0.5f, // V6
+         0.5f, 0.5f,  0.5f, // V7
         
-        // For text coords in top face
-        -0.5f, 0.5f, -0.5f, // V8: V4 repeated
-         0.5f, 0.5f, -0.5f, // V9: V5 repeated
-        -0.5f, 0.5f,  0.5f, // V10: V0 repeated
-         0.5f, 0.5f,  0.5f, // V11: V3 repeated
+        // Right Face
+         0.5f,  0.5f,  0.5f, // V8
+         0.5f, -0.5f,  0.5f, // V9
+         0.5f, -0.5f, -0.5f, // V10
+         0.5f,  0.5f, -0.5f, // V11
 
-        // For text coords in right face
-        0.5f,  0.5f, 0.5f, // V12: V3 repeated
-        0.5f, -0.5f, 0.5f, // V13: V2 repeated
-
-        // For text coords in left face
-        -0.5f,  0.5f, 0.5f, // V14: V0 repeated
-        -0.5f, -0.5f, 0.5f, // V15: V1 repeated
-
+        // Left Face
+        -0.5f,  0.5f,  0.5f, // V12
+        -0.5f,  0.5f, -0.5f, // V13
+        -0.5f, -0.5f, -0.5f, // V14
+        -0.5f, -0.5f,  0.5f, // V15
+        
         // Bottom Face
-        -0.5f, -0.5f, -0.5f, // V16: V6 repeated
-        -0.5f, -0.5f,  0.5f, // V17: V1 repeated
-         0.5f, -0.5f, -0.5f, // V18: V7 repeated
-         0.5f, -0.5f,  0.5f, // V19: V2 repeated
+        -0.5f, -0.5f, -0.5f, // V16
+        -0.5f, -0.5f,  0.5f, // V17
+         0.5f, -0.5f, -0.5f, // V18
+         0.5f, -0.5f,  0.5f, // V19
+
+        // Back Face
+        -0.5f,  0.5f, -0.5f, // V20
+         0.5f,  0.5f, -0.5f, // V21
+        -0.5f, -0.5f, -0.5f, // V22
+         0.5f, -0.5f, -0.5f, // V23
     };
 
     float[] texturePos = new float[]{
@@ -47,13 +51,7 @@ public class Block extends GameObject{
         0.0f, 0.5f,
         0.5f, 0.5f,
         0.5f, 0.0f,
-        
-        // Behind Face
-        0.0f, 0.0f,
-        0.5f, 0.0f,
-        0.0f, 0.5f,
-        0.5f, 0.5f,
-        
+
         // Top Face
         0.0f, 0.5f,
         0.5f, 0.5f,
@@ -63,25 +61,35 @@ public class Block extends GameObject{
         // Right Face
         0.0f, 0.0f,
         0.0f, 0.5f,
+        0.5f, 0.5f,
+        0.5f, 0.0f,
 
         // Left Face
         0.5f, 0.0f,
+        0.0f, 0.0f,
+        0.0f, 0.5f,
         0.5f, 0.5f,
 
         // Bottom Face
-        0.5f, 0.0f,
-        1.0f, 0.0f,
         0.5f, 0.5f,
+        0.5f, 0.0f,
         1.0f, 0.5f,
+        1.0f, 0.0f,
+
+        // Back Face
+        0.5f, 0.0f,
+        0.0f, 0.0f,
+        0.5f, 0.5f,
+        0.0f, 0.5f,
     };
 
-    int[] indexes = new int[]{
-        0,  1,  3,  3,  1,  2,  // Front face
-        8,  10, 11, 9,  8,  11, // Top Face
-        12, 13, 7,  5,  12, 7,  // Right face
-        14, 15, 6,  4,  14, 6,  // Left face
-        16, 18, 19, 17, 16, 19, // Bottom face
-        4,  6,  7,  5,  4,  7   // Back face
+    int[] indices = new int[]{
+        0,  1,  3,  3,  1,  2,  // Front Face
+        7,  5,  6,  6,  5,  4,  // Top Face
+        8,  9,  11, 11, 9,  10, // Right Face
+        12, 13, 15, 15, 13, 14, // Left Face
+        19, 17, 18, 18, 17, 16, // Bottom Face
+        20, 21, 22, 22, 21, 23  // Back Face
     };
 
     private Texture texture;
@@ -90,7 +98,7 @@ public class Block extends GameObject{
         super();
 
         this.texture = TextureHandler.getTexture("grassblock.png");
-        this.mesh = new Mesh(positions, indexes, texturePos, texture);
+        this.mesh = new Mesh(vertices, indices, texturePos, texture);
         this.mesh.generateBuffers();
     }
     
@@ -98,7 +106,7 @@ public class Block extends GameObject{
         super();
 
         this.texture = TextureHandler.getTexture("grassblock.png");
-        this.mesh = new Mesh(positions, indexes, texturePos, texture);
+        this.mesh = new Mesh(vertices, indices, texturePos, texture);
         this.mesh.generateBuffers();
         this.texture = TextureHandler.getTexture(textName);
     }

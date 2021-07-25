@@ -100,8 +100,8 @@ public class Window {
 		// Draw pixel further away before closer ones
 		glEnable(GL_DEPTH_TEST);
 
+		// Enable face culling
 		glEnable(GL_CULL_FACE);
-		// Non funziona faccia sinistra dietro sotto
 	}
 
 	public void draw() {

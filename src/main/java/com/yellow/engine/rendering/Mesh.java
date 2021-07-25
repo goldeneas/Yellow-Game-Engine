@@ -12,21 +12,22 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 
 public class Mesh {
 
-    private int vaoId;
-    private int posVboId, idxVboId, textVboId;
+    private int VAO;
+    private int vertxVbo, idVbo, textVboId;
     private List<Integer> vboIds;
 
     private int vertexCount;
 
-    private float[] positions, texturePos;
-    private int[] indexes;
+    private float[] vertices, texturePos;
+    private int[] indices;
 
     private Texture texture;
 
-    public Mesh(float[] positions, int[] indexes, float[] texturePos, Texture texture){
-        this.positions = positions;
+    // TODO: Rinomina texturePos che è brutto
+    public Mesh(float[] vertices, int[] indices, float[] texturePos, Texture texture){
+        this.vertices = vertices;
         this.texturePos = texturePos;
-        this.indexes = indexes;
+        this.indices = indices;
 
         this.texture = texture;
     }
@@ -34,28 +35,28 @@ public class Mesh {
     // Questo metodo è fondamentale per le draw call
     // Però deve essere chiamato dopo Renderer#init altrimenti le shader non sono linkate
     public void generateBuffers() {
-        vertexCount = indexes.length;
+        vertexCount = indices.length;
         vboIds = new ArrayList<>();
 
         try(MemoryStack stack = stackPush()){
-            FloatBuffer positionsBuffer = stack.callocFloat(positions.length);
-            positionsBuffer.put(positions).flip();
+            FloatBuffer verticesBuffer = stack.callocFloat(vertices.length);
+            verticesBuffer.put(vertices).flip();
 
             FloatBuffer textureBuffer = stack.callocFloat(texturePos.length);
             textureBuffer.put(texturePos).flip();
 
-            IntBuffer indexesBuffer = stack.callocInt(indexes.length);
-            indexesBuffer.put(indexes).flip();
+            IntBuffer indicesBuffer = stack.callocInt(indices.length);
+            indicesBuffer.put(indices).flip();
             
             // Crea il VAO e bindalo
-            vaoId = glGenVertexArrays();
-            glBindVertexArray(vaoId);
+            VAO = glGenVertexArrays();
+            glBindVertexArray(VAO);
  
             // Crea il VBO (posizioni) e bindalo
-            posVboId = glGenBuffers();
-            vboIds.add(posVboId);
-            glBindBuffer(GL_ARRAY_BUFFER, posVboId);
-            glBufferData(GL_ARRAY_BUFFER, positionsBuffer, GL_STATIC_DRAW);
+            vertxVbo = glGenBuffers();
+            vboIds.add(vertxVbo);
+            glBindBuffer(GL_ARRAY_BUFFER, vertxVbo);
+            glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
@@ -68,10 +69,10 @@ public class Mesh {
             glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 
             // Crea il VBO (indici) e bindalo
-            idxVboId = glGenBuffers();
-            vboIds.add(posVboId);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVboId);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexesBuffer, GL_STATIC_DRAW);
+            idVbo = glGenBuffers();
+            vboIds.add(idVbo);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idVbo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
 
  
             // Unbinda VBO e VAO
@@ -91,7 +92,7 @@ public class Mesh {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE0, texture.getTextureId());
 
-        glBindVertexArray(this.getVaoId());
+        glBindVertexArray(this.getVAO());
 
         glDrawElements(GL_TRIANGLES, this.getVertexCount(), GL_UNSIGNED_INT, 0);
 
@@ -116,11 +117,11 @@ public class Mesh {
 
         // Elimina VAO
         glBindVertexArray(0);
-        glDeleteVertexArrays(vaoId);
+        glDeleteVertexArrays(VAO);
     }
 
-    public int getVaoId(){
-        return vaoId;
+    public int getVAO(){
+        return VAO;
     }
 
     public int getVertexCount(){
