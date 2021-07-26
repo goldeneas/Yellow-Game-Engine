@@ -1,9 +1,12 @@
 package com.yellow.engine.rendering;
 
+import com.yellow.engine.handlers.ChunkHandler;
 import com.yellow.engine.handlers.ObjectHandler;
+import com.yellow.engine.prefabs.base.Block;
 import com.yellow.engine.utils.Utils;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.Camera;
+import com.yellow.engine.world.Chunk;
 import com.yellow.engine.world.GameObject;
 
 import org.joml.Matrix4f;
@@ -63,6 +66,15 @@ public class Renderer {
             Matrix4f modelViewMatrix = transform.getModelViewMatrix(gameObj, viewMatrix);
             shader.setUniformValue("modelViewMatrix", modelViewMatrix);
             gameObj.draw();
+        }
+
+        // TODO: Per forza questo deve essere multithreaded.
+        for(Chunk chunk : ChunkHandler.getChunks()) {
+            for(Block block : chunk.getChunkActiveBlocks()) {
+                Matrix4f modelViewMatrix = transform.getModelViewMatrix(block, viewMatrix);
+                shader.setUniformValue("modelViewMatrix", modelViewMatrix);
+                block.draw();
+            }
         }
 
         shader.unbind();

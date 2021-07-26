@@ -1,15 +1,13 @@
 package com.yellow.game;
 
-import com.yellow.engine.handlers.ObjectHandler;
+import com.yellow.engine.handlers.ChunkHandler;
 import com.yellow.engine.interfaces.IGame;
-import com.yellow.engine.prefabs.base.Block;
 import com.yellow.engine.rendering.Renderer;
-import com.yellow.engine.utils.Logger;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.Camera;
 import com.yellow.engine.world.Chunk;
 
-// DEBUG
+// DEBUG (WIREFRAME)
 import static org.lwjgl.opengl.GL11.*;
 
 import org.joml.Vector3f;
@@ -24,15 +22,8 @@ public class TestGame implements IGame {
         renderer = new Renderer();
         renderer.init(window, "/shaders/vertex.vs", "/shaders/fragment.fs");
 
-        Logger.debug("" + new Chunk(new Vector3f(0, 0, 0)).getChunkActiveBlocks().size());
-        Logger.debug("" + ObjectHandler.getGameObjects().size());
-
-        for(int x = 0; x < 16; x++) {
-            for(int y = 0; y < 16; y++) {
-                for(int z = 0; z < 16; z++) {
-                    ObjectHandler.add(new Block(), new Vector3f(x, y, z));
-                }
-            }
+        for(int x = 0; x < 3; x++) {
+            ChunkHandler.add(new Chunk(), new Vector3f(x, 0, 0));
         }
     }
 
