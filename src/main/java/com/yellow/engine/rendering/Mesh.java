@@ -13,8 +13,8 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 public class Mesh {
 
     private int VAO;
-    private int vertxVbo, idVbo, textVboId;
-    private List<Integer> vboIds;
+    private int vertxVbo, idVbo, textVbo;
+    private List<Integer> VBOs;
 
     private int vertexCount;
 
@@ -36,7 +36,7 @@ public class Mesh {
     // Però deve essere chiamato dopo Renderer#init altrimenti le shader non sono linkate
     public void generateBuffers() {
         vertexCount = indices.length;
-        vboIds = new ArrayList<>();
+        VBOs = new ArrayList<>();
 
         try(MemoryStack stack = stackPush()){
             FloatBuffer verticesBuffer = stack.callocFloat(vertices.length);
@@ -54,23 +54,23 @@ public class Mesh {
  
             // Crea il VBO (posizioni) e bindalo
             vertxVbo = glGenBuffers();
-            vboIds.add(vertxVbo);
+            VBOs.add(vertxVbo);
             glBindBuffer(GL_ARRAY_BUFFER, vertxVbo);
             glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
             // Crea il VBO (colori) e bindalo
-            textVboId = glGenBuffers();
-            //vboIds.add(textVboId);
-            glBindBuffer(GL_ARRAY_BUFFER, textVboId);
+            textVbo = glGenBuffers();
+            VBOs.add(textVbo);
+            glBindBuffer(GL_ARRAY_BUFFER, textVbo);
             glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 
             // Crea il VBO (indici) e bindalo
             idVbo = glGenBuffers();
-            vboIds.add(idVbo);
+            VBOs.add(idVbo);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idVbo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
 
@@ -108,7 +108,7 @@ public class Mesh {
 
         // Elimina VBOs
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        for(int vboId : vboIds) {
+        for(int vboId : VBOs) {
             glDeleteBuffers(vboId);
         }
 
