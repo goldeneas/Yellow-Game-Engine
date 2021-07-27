@@ -1,7 +1,9 @@
 package com.yellow.engine;
 
 import com.yellow.engine.interfaces.IGame;
+import com.yellow.engine.interfaces.IGuiLayer;
 import com.yellow.engine.utils.Timer;
+import com.yellow.engine.windows.ImGuiLayer;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.windows.WindowOptions;
 
@@ -12,10 +14,23 @@ public class Engine implements Runnable {
     private Timer timer;
     private Window window;
 
+    // ImGui è opzionale.
+    private ImGuiLayer imGuiLayer;
+    private IGuiLayer customGuiLayer;
+    private boolean isImGuiEnabled;
+
     public Engine(IGame game, WindowOptions options) {
         this.game = game;
         this.timer = new Timer();
         this.window = new Window(options.width, options.height, options.title, options.clearColor);
+    }
+
+    public Engine(IGame game, IGuiLayer customGuiLayer, WindowOptions options) {
+        this(game, options);
+
+        imGuiLayer = new ImGuiLayer();
+        this.customGuiLayer = customGuiLayer;
+        isImGuiEnabled = true;
     }
 
     @Override
@@ -35,10 +50,14 @@ public class Engine implements Runnable {
     private void init() throws Exception {
         window.init();
         game.init(window);
+
+        if(isImGuiEnabled) { imGuiLayer.init(window.getWindowHandle(), customGuiLayer); }
     }
 
     private void dispose() {
         game.dispose();
+        
+        if(isImGuiEnabled) { imGuiLayer.dispose(); }
     }
 
     private void loop() {
@@ -69,6 +88,8 @@ public class Engine implements Runnable {
     private void draw() {
         window.draw();
         game.draw(window);
+
+        if(isImGuiEnabled) { imGuiLayer.draw(); }
     }
 
     private void update(double deltaTime) {

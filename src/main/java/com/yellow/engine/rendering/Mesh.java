@@ -14,7 +14,7 @@ public class Mesh {
 
     private int VAO;
     private int vertxVbo, idVbo, textVbo;
-    private List<Integer> VBOs;
+    protected List<Integer> VBOs;
 
     private int vertexCount;
 
@@ -86,9 +86,6 @@ public class Mesh {
     }
 
     public void draw() {
-        // TODO: controlla perchè TEXTURE0
-        // Penso perchè decidiamo di bindare TEXTURE0 a quella texture.
-        // Se avessimo messo un'altra texture a GL_TEXTURE1 ne avrebbe usata un'altra
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE0, texture.getTextureId());
 

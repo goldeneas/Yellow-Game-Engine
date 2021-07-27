@@ -24,7 +24,6 @@ public class Window {
 	private Color clearColor;
 
 	// Variabili usate per la posizione del mouse quando viene cliccata la finestra
-	// Vedi linea 124 in #draw()
 	private double firstMouseX, firstMouseY = 0;
 
 	public Window(int width, int height, String title, Color clearColor) {
@@ -113,7 +112,7 @@ public class Window {
 
 		// Window-dragging with mouse behaviour.
 		// (to be used when decorators are disabled).
-		if (isMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+		if (isMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) && isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)) {
 			if (firstMouseX == 0 && firstMouseY == 0) {
 				firstMouseX = getMousePosition().x;
 				firstMouseY = getMousePosition().y;
@@ -121,7 +120,7 @@ public class Window {
 				int dx, dy; // delta x, delta y
 				dx = (int) (firstMouseX - getMousePosition().x);
 				dy = (int) (firstMouseY - getMousePosition().y);
-
+				
 				moveWindow(dx, dy);
 			}
 		} else if (isMouseButtonReleased(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {

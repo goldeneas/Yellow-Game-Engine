@@ -5,7 +5,6 @@ import com.yellow.engine.interfaces.IGame;
 import com.yellow.engine.rendering.Renderer;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.Camera;
-import com.yellow.engine.world.Chunk;
 
 // DEBUG (WIREFRAME)
 import static org.lwjgl.opengl.GL11.*;
@@ -22,8 +21,10 @@ public class TestGame implements IGame {
         renderer = new Renderer();
         renderer.init(window, "/shaders/vertex.vs", "/shaders/fragment.fs");
 
-        for(int x = 0; x < 3; x++) {
-            ChunkHandler.add(new Chunk(), new Vector3f(x, 0, 0));
+        for(int z = 0; z < 3; z++) {
+            for(int x = 0; x < 3; x++) {
+                ChunkHandler.generateChunk(new Vector3f(x, 0, z));
+            }
         }
     }
 

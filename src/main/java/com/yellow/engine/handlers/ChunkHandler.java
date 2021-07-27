@@ -8,12 +8,10 @@ import org.joml.Vector3f;
 
 public class ChunkHandler {
 
-    // TODO: Crea un chunk renderer probabilmente multithreaded
-
     private static ArrayList<Chunk> chunks = new ArrayList<>();
 
-    public static void add(Chunk chunk, Vector3f position) {
-        chunk.setPosition(position.x, position.y, position.z);
+    public static void generateChunk(Vector3f position) {
+        Chunk chunk = new Chunk(position);
         chunks.add(chunk);
     }
 

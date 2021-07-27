@@ -18,6 +18,7 @@
     <maven.compiler.target>1.11</maven.compiler.target>
     <lwjgl.version>3.2.3</lwjgl.version>
     <joml.version>1.10.1</joml.version>
+    <imgui.java.version>1.83.3</imgui.java.version>
     <lwjgl.natives>natives-windows</lwjgl.natives>
   </properties>
 
@@ -30,6 +31,13 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
+      <dependency>
+        <groupId>org.lwjgl</groupId>
+        <artifactId>lwjgl-bom</artifactId>
+        <version>${lwjgl.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+    </dependency>
     </dependencies>
   </dependencyManagement>
   
@@ -140,7 +148,27 @@
       <artifactId>joml</artifactId>
       <version>${joml.version}</version>
     </dependency>
-  </dependencies>
+    <dependency>
+      <groupId>io.github.spair</groupId>
+      <artifactId>imgui-java-app</artifactId>
+      <version>${imgui.java.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.spair</groupId>
+      <artifactId>imgui-java-binding</artifactId>
+      <version>${imgui.java.version}</version>
+    </dependency>
+     <dependency>
+      <groupId>io.github.spair</groupId>
+      <artifactId>imgui-java-lwjgl3</artifactId>
+      <version>${imgui.java.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.spair</groupId>
+      <artifactId>imgui-java-natives-windows</artifactId>
+      <version>${imgui.java.version}</version>
+  </dependency>
+</dependencies>
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
