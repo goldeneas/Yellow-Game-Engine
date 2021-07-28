@@ -21,7 +21,7 @@ public class TestGame implements IGame {
         renderer = new Renderer();
         renderer.init(window, "/shaders/vertex.vs", "/shaders/fragment.fs");
 
-        for(int z = 0; z < 3; z++) {
+        for(int z = 0; z < 2; z++) {
             for(int x = 0; x < 3; x++) {
                 ChunkHandler.generateChunk(new Vector3f(x, 0, z));
             }

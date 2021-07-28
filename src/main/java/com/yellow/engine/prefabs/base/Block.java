@@ -101,14 +101,5 @@ public class Block extends GameObject{
         this.mesh = new Mesh(vertices, indices, texturePos, texture);
         this.mesh.generateBuffers();
     }
-    
-    public Block(String textName) {
-        super();
-
-        this.texture = TextureHandler.getTexture("grassblock.png");
-        this.mesh = new Mesh(vertices, indices, texturePos, texture);
-        this.mesh.generateBuffers();
-        this.texture = TextureHandler.getTexture(textName);
-    }
 
 }

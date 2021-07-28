@@ -29,9 +29,9 @@ public class Chunk {
     private void generateChunkBlocks() {
         chunkBlocks.clear();
 
-        for(int x = 0; x < CHUNK_SIZE; x++) {
+        for(int z = 0; z < CHUNK_SIZE; z++) {
             for(int y = 0; y < CHUNK_SIZE; y++) {
-                for(int z = 0; z < CHUNK_SIZE; z++) {
+                for(int x = 0; x < CHUNK_SIZE; x++) {
                     Block currentBlock = new Block();
                     Vector3f currentPos = new Vector3f(x, y, z);
 
@@ -50,24 +50,25 @@ public class Chunk {
     public void reloadChunkActiveBlocks() {
         // TODO: Cambia questa logica, controlla se i blocchi confinano con aria
         // se lo fanno, sono attivi perchè visibili.
-        for(Block block : chunkBlocks) {
-            if(block.getPosition().x - (CHUNK_SIZE * chunkPosition.x) == 0
-            || block.getPosition().y - (CHUNK_SIZE * chunkPosition.y) == 0
-            || block.getPosition().z - (CHUNK_SIZE * chunkPosition.z) == 0) {
-                chunkActiveBlocks.add(block);
-                continue;
-            }
+         for(Block block : chunkBlocks) {
+             if(block.getPosition().x - (CHUNK_SIZE * chunkPosition.x) == 0
+             || block.getPosition().y - (CHUNK_SIZE * chunkPosition.y) == 0
+             || block.getPosition().z - (CHUNK_SIZE * chunkPosition.z) == 0) {
+                 chunkActiveBlocks.add(block);
+                 continue;
+             }
 
-            // Togliamo uno dal chunk size per l'indexing (che inizia da 0).
-            if(block.getPosition().x - (CHUNK_SIZE * chunkPosition.x) == (CHUNK_SIZE-1) 
-            || block.getPosition().y - (CHUNK_SIZE * chunkPosition.y) == (CHUNK_SIZE-1)
-            || block.getPosition().z - (CHUNK_SIZE * chunkPosition.z) == (CHUNK_SIZE-1)) {
-                chunkActiveBlocks.add(block);
-                continue;
-            }
-        }
+             // Togliamo uno dal chunk size per l'indexing (che inizia da 0).
+             if(block.getPosition().x - (CHUNK_SIZE * chunkPosition.x) == (CHUNK_SIZE-1) 
+             || block.getPosition().y - (CHUNK_SIZE * chunkPosition.y) == (CHUNK_SIZE-1)
+             || block.getPosition().z - (CHUNK_SIZE * chunkPosition.z) == (CHUNK_SIZE-1)) {
+                 chunkActiveBlocks.add(block);
+                 continue;
+             }
+         }
     }
 
+    // TODO: Potremmo usare questo con la workerpool
     public Block getBlockAt(float x, float y, float z) {
         for(Block block : chunkBlocks) {
             if(block.getPosition() == new Vector3f(x, y, z)) {
