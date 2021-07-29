@@ -23,7 +23,6 @@ public class Mesh {
 
     private Texture texture;
 
-    // TODO: Rinomina texturePos che è brutto
     public Mesh(float[] vertices, int[] indices, float[] texturePos, Texture texture){
         this.vertices = vertices;
         this.texturePos = texturePos;
@@ -105,8 +104,8 @@ public class Mesh {
 
         // Elimina VBOs
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        for(int vboId : VBOs) {
-            glDeleteBuffers(vboId);
+        for(int vbo : VBOs) {
+            glDeleteBuffers(vbo);
         }
 
         // Elimina la texture

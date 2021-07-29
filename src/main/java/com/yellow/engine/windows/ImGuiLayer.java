@@ -23,6 +23,7 @@ public class ImGuiLayer {
 
         imGuiGlfw.init(windowHandle, true);
         imGuiGl3.init();
+        customGuiLayer.init();
     }
 
     public void draw() {

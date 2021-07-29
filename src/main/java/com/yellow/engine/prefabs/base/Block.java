@@ -94,6 +94,7 @@ public class Block extends GameObject{
 
     private Texture texture;
 
+    // TODO: REMOVE FACE REMOVAL FEATURE, JUST USE FACE CULLING
     public Block() {
         super();
 

@@ -11,6 +11,7 @@ import com.yellow.engine.world.GameObject;
 
 import org.joml.Matrix4f;
 
+// TODO: Crea un batch renderer
 public class Renderer {
 
     private float FOV = (float) Math.toRadians(60);

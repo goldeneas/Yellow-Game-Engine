@@ -112,7 +112,7 @@ public class Window {
 
 		// Window-dragging with mouse behaviour.
 		// (to be used when decorators are disabled).
-		if (isMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) && isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)) {
+		if (isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) && isMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
 			if (firstMouseX == 0 && firstMouseY == 0) {
 				firstMouseX = getMousePosition().x;
 				firstMouseY = getMousePosition().y;
