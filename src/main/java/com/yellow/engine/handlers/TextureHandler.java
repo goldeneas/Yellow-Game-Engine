@@ -59,6 +59,9 @@ public class TextureHandler {
 
         // Solita storia, vedi Mesh.java per capire.
         int textureId = glGenTextures();
+
+        // TODO: Qui bindiamo anche la texture, però forse dobbiamo cambiarlo per usare diverse texture per diversi blocchi
+        // Non so ancora bene come funziona.
         glBindTexture(GL_TEXTURE_2D, textureId);
 
         // Spiega ad OpenGL come estrarre i byte RGBA

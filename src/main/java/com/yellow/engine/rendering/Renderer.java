@@ -14,7 +14,7 @@ import org.joml.Matrix4f;
 // TODO: Crea un batch renderer
 public class Renderer {
 
-    private float FOV = (float) Math.toRadians(60);
+    private float FOV = (float) Math.toRadians(67);
     private float zNear = 0.01f;
     private float zFar = 1000f;
     
