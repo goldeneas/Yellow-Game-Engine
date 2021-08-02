@@ -1,8 +1,8 @@
 package com.yellow.game;
 
+import com.yellow.engine.gui.widgets.Dialogue;
+import com.yellow.engine.gui.widgets.InputField;
 import com.yellow.engine.interfaces.IGuiLayer;
-import com.yellow.engine.windows.components.Dialogue;
-import com.yellow.engine.windows.components.InputField;
 
 public class TestGui implements IGuiLayer{
 
@@ -15,7 +15,6 @@ public class TestGui implements IGuiLayer{
         testField = new InputField();
     }
 
-    // TODO: Metti invece del draw un update così lo sincronizziamo con gli fps del gioco
     @Override
     public void draw() {
         // testDialogue.begin("ComponentHash1");

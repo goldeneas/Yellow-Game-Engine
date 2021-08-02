@@ -1,5 +1,6 @@
 package com.yellow.engine.rendering;
 
+import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
@@ -12,40 +13,35 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 
 public class Mesh {
 
+    private static final Vector3f DEFAULT_COLOR = new Vector3f(1.0f, 1.0f, 1.0f);
+
     private int VAO;
-    private int vertxVbo, idVbo, textVbo;
-    protected List<Integer> VBOs;
+    private int vertxVbo, idVbo, textVbo, nrmlVbo;
 
     private int vertexCount;
 
-    private float[] vertices, texturePos;
-    private int[] indices;
-
     private Texture texture;
+    private Vector3f color;
 
-    public Mesh(float[] vertices, int[] indices, float[] texturePos, Texture texture){
-        this.vertices = vertices;
-        this.texturePos = texturePos;
-        this.indices = indices;
+    protected List<Integer> VBOs;
 
-        this.texture = texture;
-    }
-
-    // Questo metodo è fondamentale per le draw call
-    // Però deve essere chiamato dopo Renderer#init altrimenti le shader non sono linkate
-    public void generateBuffers() {
+    public Mesh(float[] vertices, int[] indices, float[] texturePos, float[] normals){
         vertexCount = indices.length;
+        color = Mesh.DEFAULT_COLOR;
         VBOs = new ArrayList<>();
 
         try(MemoryStack stack = stackPush()){
             FloatBuffer verticesBuffer = stack.callocFloat(vertices.length);
             verticesBuffer.put(vertices).flip();
 
+            IntBuffer indicesBuffer = stack.callocInt(indices.length);
+            indicesBuffer.put(indices).flip();
+
             FloatBuffer textureBuffer = stack.callocFloat(texturePos.length);
             textureBuffer.put(texturePos).flip();
 
-            IntBuffer indicesBuffer = stack.callocInt(indices.length);
-            indicesBuffer.put(indices).flip();
+            FloatBuffer normalsBuffer = stack.callocFloat(normals.length);
+            normalsBuffer.put(normals).flip();
             
             // Crea il VAO e bindalo
             VAO = glGenVertexArrays();
@@ -59,13 +55,21 @@ public class Mesh {
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
-            // Crea il VBO (colori) e bindalo
+            // Crea il VBO (texture) e bindalo
             textVbo = glGenBuffers();
             VBOs.add(textVbo);
             glBindBuffer(GL_ARRAY_BUFFER, textVbo);
             glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
+
+            // Crea il VBO (normals) e bindalo
+            nrmlVbo = glGenBuffers();
+            VBOs.add(nrmlVbo);
+            glBindBuffer(GL_ARRAY_BUFFER, nrmlVbo);
+            glBufferData(GL_ARRAY_BUFFER, normalsBuffer, GL_STATIC_DRAW);
+            glEnableVertexAttribArray(2);
+            glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
 
             // Crea il VBO (indici) e bindalo
             idVbo = glGenBuffers();
@@ -78,21 +82,23 @@ public class Mesh {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
         } catch(Exception e) {
-            // Questo catch serve per Texture#loadImage, altrimenti ogni volta che
-            // chiamiamo generateBuffers bisogna aggiungere un throws Exception ai prefab, per esempio.
             e.printStackTrace();
         }
+
     }
 
     public void draw() {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE0, texture.getTextureId());
+        if(texture != null) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE0, texture.getTextureId());
+        }
 
         glBindVertexArray(this.getVAO());
 
         glDrawElements(GL_TRIANGLES, this.getVertexCount(), GL_UNSIGNED_INT, 0);
 
         glBindVertexArray(0);
+        // glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     // Questo metodo di norma va chiamato con GameObject#dispose() direttamente se assegnato ad un gameobject
@@ -101,6 +107,7 @@ public class Mesh {
         // Disattiva gli attributi del VAO
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
 
         // Elimina VBOs
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -109,7 +116,7 @@ public class Mesh {
         }
 
         // Elimina la texture
-        texture.dispose();
+        if(texture != null) { texture.dispose(); }
 
         // Elimina VAO
         glBindVertexArray(0);
@@ -122,6 +129,22 @@ public class Mesh {
 
     public int getVertexCount(){
         return vertexCount;
+    }
+
+    public Vector3f getColor() {
+        return color;
+    }
+
+    public boolean isTextured() {
+        return this.texture != null;
+    }
+
+    public void setColor(Vector3f color) {
+        this.color = color;
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
     
 }

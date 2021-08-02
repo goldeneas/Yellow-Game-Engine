@@ -9,6 +9,7 @@ import java.util.Map;
 import com.yellow.engine.utils.Logger;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
 // Questa classe è usata per rendere più facile l'unione di vertex e fragment shader.
@@ -112,6 +113,10 @@ public class ShaderProgram {
 
     public void setUniformValue(String uniformName, int value){
         glUniform1f(uniforms.get(uniformName), value);
+    }
+
+    public void setUniformValue(String uniformName, Vector3f value) {
+        glUniform3f(uniforms.get(uniformName), value.x, value.y, value.z);
     }
 
     public int getProgramId(){

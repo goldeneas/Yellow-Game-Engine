@@ -17,7 +17,6 @@ public class GameObject {
     // Usato per creare un gameObject non prefab.
     public GameObject(Mesh mesh) {
         this.mesh = mesh;
-        this.mesh.generateBuffers(); // Generiamo il mesh (VAO e i VBOs)
 
         this.scale = 1;
         this.position = new Vector3f();
@@ -25,9 +24,6 @@ public class GameObject {
     }
 
     protected GameObject() {
-        // Genera un NPE dopo la draw call di questo oggetto se non è assegnato un mesh.
-        // Questo costruttore è implementato solo da altri oggetti già definiti prima del runtime
-        // Quindi se si vuole disegnare, c'è bisogno di un mesh.
         this.mesh = null;
 
         this.scale = 1;

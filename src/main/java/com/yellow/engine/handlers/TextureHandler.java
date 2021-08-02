@@ -23,6 +23,8 @@ public class TextureHandler {
     // Il nome del .png nella cartella resources/texture sarà anche il nome della texture
     // sarà assegnata al blocco.
     // imageName deve anche avere l'estensione del file (ex. grassblock.png).
+
+    // Ex. TextureHandler.getTexture("grassblock.png");
     public static Texture getTexture(String imageName) {
         // Se è già stata caricata la texture, la ritorniamo e risparmiamo il tempo
         // che si impiegherebbe a ricaricarla dalla cartella

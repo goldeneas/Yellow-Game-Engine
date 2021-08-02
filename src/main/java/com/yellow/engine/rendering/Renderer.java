@@ -39,9 +39,14 @@ public class Renderer {
         shader.createFragmentShader(Utils.loadResource(fragmentPath));
         shader.link();
 
+        // Matrici
         shader.initUniform("projectionMatrix");
         shader.initUniform("modelViewMatrix");
+
+        // Texture
         shader.initUniform("textureSampler");
+        shader.initUniform("color");
+        shader.initUniform("useColor");
     }
 
     // TODO: Metti il draw del renderer (per i gameobject) in una worker pool con i thread?
@@ -57,23 +62,31 @@ public class Renderer {
         // Crea il viewMatrix "globale" (non quello model, cioè per ogni singolo oggetto)
         Matrix4f viewMatrix = transform.getViewMatrix(camera);
 
-        // TODO: Implementa questo sistema (?)
-        // Valore messo a 0 perchè siamo solo una texture, altrimenti
-        // dovremmo cambiare l'id in base alla texture che è sulla gpu.
+        // TODO: Per ora è così solo perchè usiamo una sola texture in tutto il gioco.
         shader.setUniformValue("textureSampler", 0);
 
         // Crea il modelViewMatrix per ogni gameObject
         for(GameObject gameObj : ObjectHandler.getGameObjects()) {
             Matrix4f modelViewMatrix = transform.getModelViewMatrix(gameObj, viewMatrix);
+
             shader.setUniformValue("modelViewMatrix", modelViewMatrix);
+
+            // Se manca la texture, usa il colore.
+            shader.setUniformValue("color", gameObj.getMesh().getColor());
+            shader.setUniformValue("useColor", gameObj.getMesh().isTextured() ? 0 : 1);
+
             gameObj.draw();
         }
 
-        // TODO: Per forza questo deve essere multithreaded.
         for(Chunk chunk : ChunkHandler.getChunks()) {
             for(Block block : chunk.getChunkActiveBlocks()) {
                 Matrix4f modelViewMatrix = transform.getModelViewMatrix(block, viewMatrix);
                 shader.setUniformValue("modelViewMatrix", modelViewMatrix);
+
+                // Se manca la texture, usa il colore.
+                shader.setUniformValue("color", block.getMesh().getColor());
+                shader.setUniformValue("useColor", block.getMesh().isTextured() ? 0 : 1);
+
                 block.draw();
             }
         }
