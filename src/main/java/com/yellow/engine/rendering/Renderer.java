@@ -48,7 +48,7 @@ public class Renderer {
         shader.initUniform("color");
         shader.initUniform("useColor");
     }
-
+    
     // TODO: Metti il draw del renderer (per i gameobject) in una worker pool con i thread?
     public void draw(Window window){
         window.clearWindow();

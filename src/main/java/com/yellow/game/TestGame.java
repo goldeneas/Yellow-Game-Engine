@@ -1,7 +1,9 @@
 package com.yellow.game;
 
 import com.yellow.engine.handlers.ChunkHandler;
+import com.yellow.engine.handlers.MeshHandler;
 import com.yellow.engine.interfaces.IGame;
+import com.yellow.engine.rendering.Mesh;
 import com.yellow.engine.rendering.Renderer;
 import com.yellow.engine.windows.Window;
 import com.yellow.engine.world.Camera;

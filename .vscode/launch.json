@@ -15,7 +15,7 @@
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "com.yellow.game.Main",
-            "projectName": "yellow"
+            "projectName": "yellow",
         }
     ]
 }
