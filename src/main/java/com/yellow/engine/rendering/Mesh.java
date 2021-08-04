@@ -1,7 +1,7 @@
 package com.yellow.engine.rendering;
 
 import org.joml.Vector3f;
-import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.system.MemoryStack.stackPush;
 
 public class Mesh {
 
@@ -21,26 +20,31 @@ public class Mesh {
     private int vertexCount;
 
     private Texture texture;
-    private Vector3f color;
+    private Vector3f color = Mesh.DEFAULT_COLOR;
 
     protected List<Integer> VBOs;
 
     public Mesh(float[] vertices, int[] indices, float[] texturePos, float[] normals){
-        vertexCount = indices.length;
-        color = Mesh.DEFAULT_COLOR;
-        VBOs = new ArrayList<>();
+        FloatBuffer verticesBuffer = null;
+        IntBuffer indicesBuffer = null;
+        FloatBuffer textureBuffer = null;
+        FloatBuffer normalsBuffer = null;
 
-        try(MemoryStack stack = stackPush()){
-            FloatBuffer verticesBuffer = stack.callocFloat(vertices.length);
+        try {
+
+            vertexCount = indices.length;
+            VBOs = new ArrayList<>();
+
+            verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
             verticesBuffer.put(vertices).flip();
 
-            IntBuffer indicesBuffer = stack.callocInt(indices.length);
+            indicesBuffer = MemoryUtil.memAllocInt(indices.length);
             indicesBuffer.put(indices).flip();
 
-            FloatBuffer textureBuffer = stack.callocFloat(texturePos.length);
+            textureBuffer = MemoryUtil.memAllocFloat(texturePos.length);
             textureBuffer.put(texturePos).flip();
 
-            FloatBuffer normalsBuffer = stack.callocFloat(normals.length);
+            normalsBuffer = MemoryUtil.memAllocFloat(normals.length);
             normalsBuffer.put(normals).flip();
             
             // Crea il VAO e bindalo
@@ -81,8 +85,12 @@ public class Mesh {
             // Unbinda VBO e VAO
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
-        } catch(Exception e) {
-            e.printStackTrace();
+        } finally {
+            // Liberiamo la memoria off-heap.
+            if(verticesBuffer != null) { MemoryUtil.memFree(verticesBuffer); }
+            if(indicesBuffer != null) { MemoryUtil.memFree(indicesBuffer); }
+            if(textureBuffer != null) { MemoryUtil.memFree(textureBuffer); }
+            if(normalsBuffer != null) { MemoryUtil.memFree(normalsBuffer); }
         }
 
     }

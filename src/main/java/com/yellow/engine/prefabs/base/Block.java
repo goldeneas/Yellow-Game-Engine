@@ -9,7 +9,7 @@ public class Block extends GameObject{
     public Block() {
         super();
 
-        this.mesh = MeshHandler.loadMesh("bunny.obj");
+        this.mesh = MeshHandler.loadMesh("cube.obj");
         this.mesh.setTexture(TextureHandler.getTexture("grassblock.png"));
     }
 
